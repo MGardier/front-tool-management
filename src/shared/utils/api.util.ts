@@ -9,5 +9,6 @@ export const isValidUrl = (value: string): boolean => {
   }
 }
 
-export const extractTotalFromHeader = <T>(response : AxiosResponse<T>, defaultValue : number) => Number(response.headers['x-total-count'] ?? defaultValue)
-
+export const extractTotalFromHeader = <T>(response : AxiosResponse<T>, defaultValue : number) => {
+  return Number(response.headers['x-total-count'] ?? defaultValue)
+}
