@@ -9,6 +9,17 @@ export const isValidUrl = (value: string): boolean => {
   }
 }
 
-export const extractTotalFromHeader = <T>(response : AxiosResponse<T>, defaultValue : number) => {
-  return Number(response.headers['x-total-count'] ?? defaultValue)
+/**
+ * Reads the `x-total-count` header as an integer.
+ * Falls back to `defaultValue` when the header is missing, empty, or cannot
+ * be parsed 
+ */
+export const extractTotalFromHeader = <T>(
+  response: AxiosResponse<T>,
+  defaultValue: number
+): number => {
+  const raw = response.headers['x-total-count']
+  if (raw === undefined || raw === null) return defaultValue
+  const parsed = Number(raw)
+  return Number.isFinite(parsed) ? parsed : defaultValue
 }
