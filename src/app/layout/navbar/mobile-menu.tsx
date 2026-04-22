@@ -1,5 +1,5 @@
 import clsx from "clsx"
-import { navLinks } from "../../constants/navlinks"
+import { NAV_LINKS } from "../../constants/navlinks"
 import { SearchInput } from "./search-input"
 
 type MobileMenuProps = {
@@ -10,7 +10,7 @@ export const MobileMenu = ({ onClose }: MobileMenuProps) => {
   return (
     <div className="border-t border-slate-200 bg-white lg:hidden">
       <nav className="flex flex-col gap-1 p-4">
-        {navLinks.map((link) => (
+        {NAV_LINKS.map((link) => (
           <a
             key={link.label}
             href={link.href}

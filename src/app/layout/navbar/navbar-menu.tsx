@@ -1,10 +1,10 @@
 import clsx from "clsx"
-import { navLinks } from "../../constants/navlinks"
+import { NAV_LINKS } from "../../constants/navlinks"
 
 export const NavbarMenu = () => {
   return (
     <nav className="hidden items-center gap-6 text-sm lg:flex">
-      {navLinks.map((link) => (
+      {NAV_LINKS.map((link) => (
         <a
           key={link.label}
           href={link.href}
