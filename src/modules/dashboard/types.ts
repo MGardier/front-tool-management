@@ -1,3 +1,5 @@
+import type { ComponentType } from 'react'
+
 export type DashboardKpis = {
   budget: {
     current: number
@@ -23,3 +25,16 @@ export type UseDashboardKpisResult = {
   isError: boolean
   data: DashboardKpis | undefined
 }
+
+export type StatCardData = {
+  label: string
+  value: string
+  valueSuffix?: string
+  badge: string
+  badgeClass: string
+  Icon: ComponentType<IconProps>
+  iconBgClass: string
+}
+
+
+type IconProps = { className?: string; strokeWidth?: number }
