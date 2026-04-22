@@ -21,8 +21,8 @@
     "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true,
     "paths": {
-      "@/*": ["src/*"],
-      "@test/*": ["test/*"]
+      "@/*": ["./src/*"],
+      "@test/*": ["./test/*"]
     }
   },
   "include": ["src", "test"]
