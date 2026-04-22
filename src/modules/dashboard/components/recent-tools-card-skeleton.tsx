@@ -1,4 +1,4 @@
-import { Skeleton } from '@/shared/components/skeleton'
+import { Skeleton } from '@/shared/components/skeleton/skeleton'
 
 const SKELETON_ROWS = 5
 
