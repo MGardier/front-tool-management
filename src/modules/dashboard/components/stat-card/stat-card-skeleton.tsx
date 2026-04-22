@@ -15,7 +15,10 @@ export function StatCardSkeleton() {
 
 export function StatCardSkeletonGrid() {
   return (
-    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-4">
+    <div
+      data-testid="kpis-skeleton"
+      className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-4"
+    >
       {Array.from({ length: 4 }).map((_, i) => (
         <StatCardSkeleton key={i} />
       ))}
