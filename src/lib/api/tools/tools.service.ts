@@ -41,13 +41,7 @@ export const toolsService = {
     return { data: validTools, total }
   },
 
-  /**
-   * Fetch a single tool by its ID.
-   */
-  async fetchToolById(id: number): Promise<Tool> {
-    const response = await toolsApi.fetchToolById(id)
-    return toolSchema.parse(response.data)
-  },
+
 
   /**
    * Fetch only the total count of active tools.
@@ -72,5 +66,14 @@ export const toolsService = {
       _limit: limit,
     })
     return data
+  },
+
+
+  /**
+   * Fetch a single tool by its ID.
+   */
+  async fetchToolById(id: number): Promise<Tool> {
+    const response = await toolsApi.fetchToolById(id)
+    return toolSchema.parse(response.data)
   },
 }
