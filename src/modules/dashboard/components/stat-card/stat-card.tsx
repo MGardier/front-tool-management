@@ -1,5 +1,5 @@
 import clsx from 'clsx'
-import type { StatCardData } from '../types'
+import type { StatCardData } from '../../types'
 
 type StatCardProps = {
   stat: StatCardData

@@ -3,6 +3,7 @@ import type { Tool } from '@/lib/api/tools/tools.schema'
 import { RecentToolsListMobile } from './recent-tools-list-mobile'
 import { RecentToolsTableDesktop } from './recent-tools-table-desktop'
 
+
 type RecentToolsCardProps = {
   tools: Tool[]
 }

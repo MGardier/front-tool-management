@@ -2,6 +2,7 @@ import { currencyFormatter, formatBudgetSuffix } from "@/shared/utils/format.uti
 import type { DashboardKpis, StatCardData } from "./types";
 import { Building2, TrendingUp, Users, Wrench } from "lucide-react";
 import type { ToolStatus } from "@/lib/api/tools/tools.schema";
+import type { Analytics } from "@/lib/api/analytics/analytics.schema";
 
 export const buildStatCards = (kpis: DashboardKpis): StatCardData[] => [
   {
@@ -39,6 +40,34 @@ export const buildStatCards = (kpis: DashboardKpis): StatCardData[] => [
   },
 ]
 
+
+export const mapToDashboardKpis = (
+  analytics: Analytics,
+  activeToolsCount: number,
+  departmentsCount: number
+): DashboardKpis => {
+  const { budget_overview, kpi_trends, cost_analytics } = analytics
+
+  return {
+    budget: {
+      current: budget_overview.current_month_total,
+      limit: budget_overview.monthly_limit,
+      change: kpi_trends.budget_change,
+    },
+    activeTools: {
+      count: activeToolsCount,
+      change: kpi_trends.tools_change,
+    },
+    departments: {
+      count: departmentsCount,
+      change: kpi_trends.departments_change,
+    },
+    costPerUser: {
+      current: cost_analytics.cost_per_user,
+      change: kpi_trends.cost_per_user_change,
+    },
+  }
+}
 
 export const statusStyles: Record<ToolStatus, string> = {
   active: 'bg-emerald-500 text-white',

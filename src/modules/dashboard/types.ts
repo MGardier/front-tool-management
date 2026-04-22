@@ -23,6 +23,8 @@ export type DashboardKpis = {
 export type UseDashboardKpisResult = {
   isLoading: boolean
   isError: boolean
+  isFetching: boolean
+  refetch: () => Promise<unknown>
   data: DashboardKpis | undefined
 }
 

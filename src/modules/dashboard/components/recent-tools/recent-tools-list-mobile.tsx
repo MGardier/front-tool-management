@@ -1,7 +1,7 @@
 import clsx from 'clsx'
 import type { Tool } from '@/lib/api/tools/tools.schema'
 import { currencyFormatter } from '@/shared/utils/format.util'
-import { statusLabels, statusStyles } from '../utils'
+import { statusLabels, statusStyles } from '../../utils'
 
 type RecentToolsListMobileProps = {
   tools: Tool[]
