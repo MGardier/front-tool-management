@@ -1,3 +1,5 @@
+import type { AxiosResponse } from "axios"
+
 export const isValidUrl = (value: string): boolean => {
   try {
     new URL(value)
@@ -6,3 +8,6 @@ export const isValidUrl = (value: string): boolean => {
     return false
   }
 }
+
+export const extractTotalFromHeader = <T>(response : AxiosResponse<T>, defaultValue : number) => Number(response.headers['x-total-count'] ?? defaultValue)
+

@@ -2,6 +2,7 @@ import type { Paginated } from '@/shared/types/api.types'
 import { toolsApi } from './tools.api'
 import { toolSchema, type Tool } from './tools.schema'
 import type { ToolsQueryParams } from './types'
+import { extractTotalFromHeader } from '@/shared/utils/api.util'
 
 /**
  * Safely parses a list of tools, filtering out records that don't match
@@ -28,15 +29,13 @@ export const toolsService = {
       response.data as unknown[]
     )
 
-    if (invalidCount > 0 && import.meta.env.DEV) {
+    if (invalidCount > 0 && import.meta.env.DEV) 
       console.warn(
         `[toolsService] ${invalidCount} invalid tool(s) filtered out`
       )
-    }
+    
 
-    const totalFromHeader = Number(
-      response.headers['x-total-count'] ?? validTools.length
-    )
+    const totalFromHeader = extractTotalFromHeader(response,validTools.length) 
     const total = totalFromHeader - invalidCount
 
     return { data: validTools, total }

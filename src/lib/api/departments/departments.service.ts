@@ -3,6 +3,7 @@ import type { Paginated } from '@/shared/types/api.types'
 import { departmentsApi } from './departments.api'
 import { departmentSchema, type Department } from './departments.schema'
 import type { DepartmentsQueryParams } from './types'
+import { extractTotalFromHeader } from '@/shared/utils/api.util'
 
 export const departmentsService = {
   async fetchDepartments(
@@ -11,7 +12,7 @@ export const departmentsService = {
     const response = await departmentsApi.fetchDepartments(params)
 
     const data = z.array(departmentSchema).parse(response.data)
-    const total = Number(response.headers['x-total-count'] ?? data.length)
+    const total = extractTotalFromHeader(response,data.length) 
 
     return { data, total }
   },
