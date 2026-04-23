@@ -1,6 +1,6 @@
 import type { ToolStatus } from '@/lib/api/tools/tools.schema'
 import type { ToolSort } from '@/shared/components/tools-list/types'
-import type { useToolsPage } from './tools'
+
 
 /**
  * User-facing filter state. Mirrors a subset of `ToolsQueryParams` that is
@@ -28,4 +28,3 @@ export type ToolsFiltersState = {
 }
 
 
-export type TToolsPageData = ReturnType<typeof useToolsPage>;

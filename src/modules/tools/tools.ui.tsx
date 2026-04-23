@@ -1,15 +1,13 @@
 import { useState } from "react";
 import clsx from "clsx";
-
-
-
 import { ToolsContent } from "./tools-content";
-import type { TToolsPageData } from "./types";
 import { ToolsToolbar } from "./components/list/tools-toolbar";
 import { ToolsFiltersPanel } from "./components/list/tools-filters-panel";
 import { ToolsActiveFilters } from "./components/list/tools-active-filters";
+import type { useToolsPage } from "./hooks/use-tools-page";
 
 
+type TToolsPageData = ReturnType<typeof useToolsPage>;
 
 interface IToolsUiProps {
   data: TToolsPageData;
