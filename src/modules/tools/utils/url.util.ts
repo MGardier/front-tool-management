@@ -1,10 +1,11 @@
 import { SORT_DIRECTIONS, SORT_KEYS, type ToolSort } from '@/shared/components/tools-list/types'
-import { readEnumParam, readIntParam, readStringParam } from '@/shared/utils/url-params.util'
-import { STATUS_VALUES, type ToolFilters, type ToolsFiltersState } from '../types'
+import { readEnumParam, readIntParam } from '@/shared/utils/url-params.util'
+import { FILTER_DEFS, FILTER_KEYS } from '../filters/filter-defs'
+import type { ToolFilters, ToolsFiltersState } from '../types'
 
-const DEFAULT_SORT: ToolSort = { key: 'updated_at', direction: 'desc' }
-const DEFAULT_PAGE = 1
-const DEFAULT_LIMIT = 20
+export const DEFAULT_SORT: ToolSort = { key: 'updated_at', direction: 'desc' }
+export const DEFAULT_PAGE = 1
+export const DEFAULT_LIMIT = 20
 
 // ─────────────────────────────  PARSING  ───────────────────────────────────
 // URL search params → typed state. Pure, module-level — testable in isolation.
@@ -14,14 +15,14 @@ export const parseSort = (params: URLSearchParams): ToolSort => ({
   direction: readEnumParam(params, '_order', SORT_DIRECTIONS, DEFAULT_SORT.direction),
 })
 
-export const parseFilters = (params: URLSearchParams): ToolFilters => ({
-  q: readStringParam(params, 'q'),
-  status: readEnumParam(params, 'status', STATUS_VALUES, undefined),
-  category: readStringParam(params, 'category'),
-  owner_department: readStringParam(params, 'owner_department'),
-  name_like: readStringParam(params, 'name_like'),
-  vendor_like: readStringParam(params, 'vendor_like'),
-})
+export const parseFilters = (params: URLSearchParams): ToolFilters => {
+  const filters = {} as ToolFilters
+  for (const key of FILTER_KEYS) {
+    // Cast is safe: the mapped-type of FILTER_DEFS guarantees reader → value alignment.
+    ;(filters as Record<string, unknown>)[key] = FILTER_DEFS[key].read(params)
+  }
+  return filters
+}
 
 export const parseState = (params: URLSearchParams): ToolsFiltersState => ({
   filters: parseFilters(params),
