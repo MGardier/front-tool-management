@@ -3,6 +3,7 @@ import { ChevronDown, X } from 'lucide-react'
 import clsx from 'clsx'
 import { useDepartmentsSearch } from '@/shared/hooks/use-departments-search'
 import { useDebouncedValue } from '@/shared/hooks/use-debounced-value'
+import { MODULES } from '@/app/constants/modules'
 
 type DepartmentAutocompleteProps = {
   value?: string
@@ -11,7 +12,7 @@ type DepartmentAutocompleteProps = {
 }
 
 const AUTOCOMPLETE_DEBOUNCE_MS = 250
-const MODULE = 'tools-list-filters'
+
 
 export function DepartmentAutocomplete({
   value,
@@ -50,7 +51,7 @@ export function DepartmentAutocomplete({
   }, [open, closeAndSync])
 
   const { data, isFetching } = useDepartmentsSearch({
-    module: MODULE,
+    module: MODULES.tools.list,
     query: debouncedQuery,
     enabled: open,
   })

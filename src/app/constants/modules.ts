@@ -1,3 +1,4 @@
 export const MODULES = {
-  dashboard: 'dashboard'
+  dashboard: 'dashboard',
+  tools :{ all : 'tools', list: `tools-list`}
 } as const 
