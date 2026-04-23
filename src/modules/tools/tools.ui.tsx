@@ -38,13 +38,15 @@ export function ToolsUi({ data }: { data: ToolsPageData }) {
       <ToolsActiveFilters
         filters={state.filters}
         onRemove={actions.removeFilter}
-        onClearAll={actions.clearFilters}
+        onClearAll={actions.clearAll}
+        sort={state.isSortActive ? state.sort : null}
+        onResetSort={actions.resetSort}
       />
 
       <ToolsContent
         state={state}
         query={query}
-        onSortChange={actions.setSort}
+        onSortChange={(sort) => (sort ? actions.setSort(sort) : actions.resetSort())}
         onPageChange={actions.setPage}
         onLimitChange={actions.setLimit}
       />

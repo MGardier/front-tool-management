@@ -11,7 +11,7 @@ import type { ToolsPageQuery, ToolsPageState } from './types'
 type ToolsContentProps = {
   state: ToolsPageState
   query: ToolsPageQuery
-  onSortChange: (sort: ToolSort) => void
+  onSortChange: (sort: ToolSort | null) => void
   onPageChange: (page: number) => void
   onLimitChange: (limit: number) => void
 }

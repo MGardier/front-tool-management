@@ -2,7 +2,7 @@ import { useCallback, useMemo } from 'react'
 import { useSearchParams } from 'react-router'
 import type { ToolSort } from '@/shared/components/tools-list/types'
 import type { ToolFilterKey, ToolFilters, ToolsFiltersHook, ToolsFiltersState } from '../types'
-import { DEFAULT_PAGE, parseState, serializeState } from '../utils/url.util'
+import { DEFAULT_PAGE, DEFAULT_SORT, parseState, serializeState } from '../utils/url.util'
 
 export function useToolsFilters(): ToolsFiltersHook {
   const [searchParams, setSearchParams] = useSearchParams()
@@ -45,8 +45,24 @@ export function useToolsFilters(): ToolsFiltersHook {
     [commit, state]
   )
 
+  const clearAll = useCallback(
+    () =>
+      commit({
+        ...state,
+        filters: {},
+        sort: DEFAULT_SORT,
+        page: DEFAULT_PAGE,
+      }),
+    [commit, state]
+  )
+
   const setSort = useCallback(
     (sort: ToolSort) => commit({ ...state, sort, page: DEFAULT_PAGE }),
+    [commit, state]
+  )
+
+  const resetSort = useCallback(
+    () => commit({ ...state, sort: DEFAULT_SORT, page: DEFAULT_PAGE }),
     [commit, state]
   )
 
@@ -66,7 +82,9 @@ export function useToolsFilters(): ToolsFiltersHook {
     setFilter,
     removeFilter,
     clearFilters,
+    clearAll,
     setSort,
+    resetSort,
     setPage,
     setLimit,
   }

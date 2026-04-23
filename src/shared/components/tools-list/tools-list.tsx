@@ -6,7 +6,7 @@ import type { ToolSort } from './types'
 type ToolsListProps = {
   tools: Tool[]
   sort?: ToolSort
-  onSortChange?: (sort: ToolSort) => void
+  onSortChange?: (sort: ToolSort | null) => void
 }
 
 /**

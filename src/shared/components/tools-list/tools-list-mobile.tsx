@@ -9,7 +9,7 @@ import type { ToolSort, ToolSortKey } from './types'
 type ToolsListMobileProps = {
   tools: Tool[]
   sort?: ToolSort
-  onSortChange?: (sort: ToolSort) => void
+  onSortChange?: (sort: ToolSort | null) => void
 }
 
 function MobileSortControl({
@@ -17,7 +17,7 @@ function MobileSortControl({
   onSortChange,
 }: {
   sort: ToolSort
-  onSortChange: (sort: ToolSort) => void
+  onSortChange: (sort: ToolSort | null) => void
 }) {
   const DirectionIcon = sort.direction === 'asc' ? ArrowUp : ArrowDown
   return (

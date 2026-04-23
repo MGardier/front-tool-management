@@ -31,7 +31,9 @@ export type ToolsFiltersHook = ToolsFiltersState & {
   setFilter: <K extends ToolFilterKey>(key: K, value: ToolFilters[K]) => void
   removeFilter: (key: ToolFilterKey) => void
   clearFilters: () => void
+  clearAll: () => void
   setSort: (sort: ToolSort) => void
+  resetSort: () => void
   setPage: (page: number) => void
   setLimit: (limit: number) => void
 }
@@ -39,6 +41,7 @@ export type ToolsFiltersHook = ToolsFiltersState & {
 export type ToolsPageState = ToolsFiltersState & {
   enabledFilters: ToolFilterKey[]
   activeFilterCount: number
+  isSortActive: boolean
 }
 
 export type ToolsPageQuery = {

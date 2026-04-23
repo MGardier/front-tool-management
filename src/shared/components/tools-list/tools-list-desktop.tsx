@@ -10,7 +10,7 @@ import type { ToolSort } from './types'
 type ToolsListDesktopProps = {
   tools: Tool[]
   sort?: ToolSort
-  onSortChange?: (sort: ToolSort) => void
+  onSortChange?: (sort: ToolSort | null) => void
 }
 
 export function ToolsListDesktop({ tools, sort, onSortChange }: ToolsListDesktopProps) {

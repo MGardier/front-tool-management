@@ -1,7 +1,9 @@
 import { useEffect } from 'react'
+import { isSameSort } from '@/shared/components/tools-list/sort.util'
 import { useTools } from './use-tools'
 import { useToolsFilters } from './use-tools-filters'
 import { countActiveFilters } from '../utils/filters.util'
+import { DEFAULT_SORT } from '../utils/url.util'
 import type { ToolFilterKey, ToolsPageData } from '../types'
 
 const ENABLED_FILTERS: ToolFilterKey[] = ['status', 'owner_department', 'category']
@@ -16,7 +18,9 @@ export const useToolsPage = (): ToolsPageData => {
     setFilter,
     removeFilter,
     clearFilters,
+    clearAll,
     setSort,
+    resetSort,
     setPage,
     setLimit,
   } = useToolsFilters()
@@ -46,6 +50,7 @@ export const useToolsPage = (): ToolsPageData => {
       limit,
       enabledFilters: ENABLED_FILTERS,
       activeFilterCount: countActiveFilters(filters),
+      isSortActive: !isSameSort(sort, DEFAULT_SORT),
     },
     query: {
       paginated,
@@ -60,7 +65,9 @@ export const useToolsPage = (): ToolsPageData => {
       setFilter,
       removeFilter,
       clearFilters,
+      clearAll,
       setSort,
+      resetSort,
       setPage,
       setLimit,
     },
