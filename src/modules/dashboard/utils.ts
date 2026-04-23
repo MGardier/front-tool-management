@@ -1,7 +1,6 @@
 import { currencyFormatter, formatBudgetSuffix } from "@/shared/utils/format.util";
 import type { DashboardKpis, StatCardData } from "./types";
 import { Building2, TrendingUp, Users, Wrench } from "lucide-react";
-import type { ToolStatus } from "@/lib/api/tools/tools.schema";
 import type { Analytics } from "@/lib/api/analytics/analytics.schema";
 
 export const buildStatCards = (kpis: DashboardKpis): StatCardData[] => [
@@ -69,14 +68,3 @@ export const mapToDashboardKpis = (
   }
 }
 
-export const statusStyles: Record<ToolStatus, string> = {
-  active: 'bg-emerald-500 text-white',
-  expiring: 'bg-orange-400 text-white',
-  unused: 'bg-red-500 text-white',
-}
-
-export const statusLabels: Record<ToolStatus, string> = {
-  active: 'Active',
-  expiring: 'Expiring',
-  unused: 'Unused',
-}

@@ -1,16 +1,16 @@
 import clsx from 'clsx'
 import type { Tool } from '@/lib/api/tools/tools.schema'
 import { currencyFormatter } from '@/shared/utils/format.util'
-import { statusLabels, statusStyles } from '../../utils'
+import { statusLabels, statusStyles } from './util'
 
-type RecentToolsListMobileProps = {
+type ToolsListMobileProps = {
   tools: Tool[]
 }
 
 const statusBadgeClasses =
   'inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold'
 
-export function RecentToolsListMobile({ tools }: RecentToolsListMobileProps) {
+export function ToolsListMobile({ tools }: ToolsListMobileProps) {
   return (
     <ul className="mt-4 space-y-3">
       {tools.map((tool) => (

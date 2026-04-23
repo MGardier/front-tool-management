@@ -1,8 +1,6 @@
 import { Calendar } from 'lucide-react'
 import type { Tool } from '@/lib/api/tools/tools.schema'
-import { RecentToolsListMobile } from './recent-tools-list-mobile'
-import { RecentToolsTableDesktop } from './recent-tools-table-desktop'
-
+import { ToolsList } from '@/shared/components/tools-list/tools-list'
 
 type RecentToolsCardProps = {
   tools: Tool[]
@@ -19,12 +17,7 @@ export function RecentToolsCard({ tools }: RecentToolsCardProps) {
         </div>
       </div>
 
-      <div className="md:hidden">
-        <RecentToolsListMobile tools={tools} />
-      </div>
-      <div className="hidden md:block">
-        <RecentToolsTableDesktop tools={tools} />
-      </div>
+      <ToolsList tools={tools} />
     </div>
   )
 }

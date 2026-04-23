@@ -1,16 +1,16 @@
 import clsx from 'clsx'
 import type { Tool } from '@/lib/api/tools/tools.schema'
 import { currencyFormatter } from '@/shared/utils/format.util'
-import { statusLabels, statusStyles } from '../../utils'
+import { statusLabels, statusStyles } from './util'
 
-type RecentToolsTableDesktopProps = {
+type ToolsListDesktopProps = {
   tools: Tool[]
 }
 
 const statusBadgeClasses =
   'inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold'
 
-export function RecentToolsTableDesktop({ tools }: RecentToolsTableDesktopProps) {
+export function ToolsListDesktop({ tools }: ToolsListDesktopProps) {
   return (
     <div className="mt-6 overflow-x-auto">
       <table className="w-full">
