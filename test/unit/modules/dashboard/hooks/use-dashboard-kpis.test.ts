@@ -1,5 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { renderHook, act } from '@testing-library/react'
+import { MODULES } from '@/app/constants/modules'
 import { useDashboardKpis } from '@/modules/dashboard/hooks/use-dashboard-kpis'
 import { useAnalytics } from '@/modules/dashboard/hooks/use-analytics'
 import { useActiveToolsCount } from '@/modules/dashboard/hooks/use-active-tools-count'
@@ -53,7 +54,7 @@ describe('useDashboardKpis', () => {
     mockActiveCount.mockReturnValue(mockQueryResult({ data: 12 }))
     mockDeptCount.mockReturnValue(mockQueryResult({ data: 5 }))
 
-    const { result } = renderHook(() => useDashboardKpis())
+    const { result } = renderHook(() => useDashboardKpis(MODULES.dashboard))
 
     expect(result.current.isLoading).toBe(false)
     expect(result.current.isError).toBe(false)
@@ -70,7 +71,7 @@ describe('useDashboardKpis', () => {
     mockActiveCount.mockReturnValue(mockQueryResult({ data: 12 }))
     mockDeptCount.mockReturnValue(mockQueryResult({ data: 5 }))
 
-    const { result } = renderHook(() => useDashboardKpis())
+    const { result } = renderHook(() => useDashboardKpis(MODULES.dashboard))
 
     expect(result.current.isLoading).toBe(true)
   })
@@ -80,7 +81,7 @@ describe('useDashboardKpis', () => {
     mockActiveCount.mockReturnValue(mockQueryResult({ data: 12 }))
     mockDeptCount.mockReturnValue(mockQueryResult({ data: 5 }))
 
-    const { result } = renderHook(() => useDashboardKpis())
+    const { result } = renderHook(() => useDashboardKpis(MODULES.dashboard))
 
     expect(result.current.isError).toBe(true)
   })
@@ -90,7 +91,7 @@ describe('useDashboardKpis', () => {
     mockActiveCount.mockReturnValue(mockQueryResult<number>({ isError: true, data: undefined }))
     mockDeptCount.mockReturnValue(mockQueryResult({ data: 5 }))
 
-    const { result } = renderHook(() => useDashboardKpis())
+    const { result } = renderHook(() => useDashboardKpis(MODULES.dashboard))
 
     expect(result.current.data).toBeUndefined()
   })
@@ -102,7 +103,7 @@ describe('useDashboardKpis', () => {
     mockActiveCount.mockReturnValue(mockQueryResult({ data: 12 }))
     mockDeptCount.mockReturnValue(mockQueryResult({ data: 5 }))
 
-    const { result } = renderHook(() => useDashboardKpis())
+    const { result } = renderHook(() => useDashboardKpis(MODULES.dashboard))
 
     expect(result.current.isFetching).toBe(true)
   })
@@ -112,7 +113,7 @@ describe('useDashboardKpis', () => {
     mockActiveCount.mockReturnValue(mockQueryResult({ isError: true }))
     mockDeptCount.mockReturnValue(mockQueryResult({ isError: true }))
 
-    const { result } = renderHook(() => useDashboardKpis())
+    const { result } = renderHook(() => useDashboardKpis(MODULES.dashboard))
 
     expect(result.current).toHaveProperty('isLoading')
     expect(result.current).toHaveProperty('isError', true)
@@ -136,7 +137,7 @@ describe('useDashboardKpis', () => {
       mockQueryResult({ data: 5, refetch: deptRefetch as never })
     )
 
-    const { result } = renderHook(() => useDashboardKpis())
+    const { result } = renderHook(() => useDashboardKpis(MODULES.dashboard))
 
     await act(async () => {
       await result.current.refetch()
