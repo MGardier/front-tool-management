@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState, type InputHTMLAttributes } from 'react'
-import { useDebouncedValue } from '@/shared/hooks/use-debounced-value'
 
 type DebouncedTextInputProps = Omit<
   InputHTMLAttributes<HTMLInputElement>,
@@ -15,6 +14,10 @@ type DebouncedTextInputProps = Omit<
  * with stable values — the consumer never sees per-keystroke updates.
  * The latest `onChange` is captured via a ref so callers can pass an
  * inline handler without worrying about referential stability.
+ *
+ * The debounce timer is cancelled whenever `value` changes from the
+ * parent, so a parent-driven reset (clear-all, badge removal, URL
+ * restore) can never be overwritten by a stale pending emit.
  */
 export function DebouncedTextInput({
   value,
@@ -23,7 +26,6 @@ export function DebouncedTextInput({
   ...inputProps
 }: DebouncedTextInputProps) {
   const [local, setLocal] = useState(value)
-  const debounced = useDebouncedValue(local, debounceMs)
 
   const onChangeRef = useRef(onChange)
   useEffect(() => {
@@ -35,10 +37,13 @@ export function DebouncedTextInput({
     setLocal(value)
   }, [value])
 
-  // Emit only when the debounced value diverges from what the parent holds.
+  // Emit only when the user has diverged from the parent's value; the
+  // cleanup cancels the pending emit as soon as parent and local realign.
   useEffect(() => {
-    if (debounced !== value) onChangeRef.current(debounced)
-  }, [debounced, value])
+    if (local === value) return
+    const timer = setTimeout(() => onChangeRef.current(local), debounceMs)
+    return () => clearTimeout(timer)
+  }, [local, value, debounceMs])
 
   return (
     <input
