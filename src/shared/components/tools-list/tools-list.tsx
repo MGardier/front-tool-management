@@ -1,24 +1,28 @@
 import type { Tool } from '@/lib/api/tools/tools.schema'
 import { ToolsListDesktop } from './tools-list-desktop'
 import { ToolsListMobile } from './tools-list-mobile'
+import type { ToolSort } from './types'
 
 type ToolsListProps = {
   tools: Tool[]
+  sort?: ToolSort
+  onSortChange?: (sort: ToolSort) => void
 }
 
 /**
- * Responsive tool viewer: mobile list under md, desktop table from md up.
- * Both variants are rendered in the DOM and toggled via CSS so that the
- * switch is instant without a re-render.
+ * Responsive tool viewer. Both variants are mounted and toggled via CSS.
+ * Sort is opt-in: pass `sort` +
+ * `onSortChange` to enable sortable headers (desktop) and the sort
+ * control (mobile).
  */
-export function ToolsList({ tools }: ToolsListProps) {
+export function ToolsList({ tools, sort, onSortChange }: ToolsListProps) {
   return (
     <>
       <div className="md:hidden">
-        <ToolsListMobile tools={tools} />
+        <ToolsListMobile tools={tools} sort={sort} onSortChange={onSortChange} />
       </div>
       <div className="hidden md:block">
-        <ToolsListDesktop tools={tools} />
+        <ToolsListDesktop tools={tools} sort={sort} onSortChange={onSortChange} />
       </div>
     </>
   )

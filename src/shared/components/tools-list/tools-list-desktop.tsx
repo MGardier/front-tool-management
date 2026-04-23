@@ -1,26 +1,54 @@
 import clsx from 'clsx'
+import { ArrowDown, ArrowUp, ArrowUpDown } from 'lucide-react'
 import type { Tool } from '@/lib/api/tools/tools.schema'
 import { currencyFormatter } from '@/shared/utils/format.util'
-import { statusLabels, statusStyles } from './util'
+import { COLUMNS } from './columns'
+import { statusBadgeClasses, statusLabels, statusStyles } from './status'
+import { nextSortDirection } from './sort.util'
+import type { ToolSort } from './types'
 
 type ToolsListDesktopProps = {
   tools: Tool[]
+  sort?: ToolSort
+  onSortChange?: (sort: ToolSort) => void
 }
 
-const statusBadgeClasses =
-  'inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold'
+export function ToolsListDesktop({ tools, sort, onSortChange }: ToolsListDesktopProps) {
+  const sortable = Boolean(onSortChange)
 
-export function ToolsListDesktop({ tools }: ToolsListDesktopProps) {
   return (
     <div className="mt-6 overflow-x-auto">
       <table className="w-full">
         <thead>
           <tr className="text-left text-sm text-slate-500">
-            <th className="pb-4 font-normal">Tool</th>
-            <th className="pb-4 font-normal">Department</th>
-            <th className="pb-4 font-normal">Users</th>
-            <th className="pb-4 font-normal">Monthly Cost</th>
-            <th className="pb-4 font-normal">Status</th>
+            {COLUMNS.map((col) => {
+              const isActive = sort?.key === col.key
+              const Icon = !isActive
+                ? ArrowUpDown
+                : sort?.direction === 'asc'
+                  ? ArrowUp
+                  : ArrowDown
+
+              return (
+                <th key={col.key} className="pb-4 font-normal">
+                  {sortable ? (
+                    <button
+                      type="button"
+                      onClick={() => onSortChange!(nextSortDirection(sort, col.key))}
+                      className={clsx(
+                        'inline-flex items-center gap-1 transition-colors hover:text-slate-900',
+                        isActive && 'font-semibold text-slate-900'
+                      )}
+                    >
+                      {col.label}
+                      <Icon className="h-3.5 w-3.5" strokeWidth={2} />
+                    </button>
+                  ) : (
+                    col.label
+                  )}
+                </th>
+              )
+            })}
           </tr>
         </thead>
         <tbody>
