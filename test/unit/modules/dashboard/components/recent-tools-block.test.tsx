@@ -4,11 +4,16 @@ import userEvent from '@testing-library/user-event'
 import { useRecentTools } from '@/modules/dashboard/hooks/use-recent-tools'
 import { RecentToolsBlock } from '@/modules/dashboard/components/recent-tools-block'
 import type { Tool } from '@/lib/api/tools/tools.schema'
+import type { Paginated } from '@/shared/types/api.types'
 import { mockQueryResult } from '@test/helpers/mocks.helper'
 
-vi.mock('@/modules/dashboard/hooks/use-recent-tools', () => ({
-  useRecentTools: vi.fn(),
-}))
+vi.mock('@/modules/dashboard/hooks/use-recent-tools', async () => {
+  const actual =
+    await vi.importActual<typeof import('@/modules/dashboard/hooks/use-recent-tools')>(
+      '@/modules/dashboard/hooks/use-recent-tools'
+    )
+  return { ...actual, useRecentTools: vi.fn() }
+})
 
 const mockUseRecentTools = vi.mocked(useRecentTools)
 
@@ -22,6 +27,11 @@ const tool = (id: number, name: string): Tool =>
     active_users_count: 10,
     updated_at: '2024-01-01T00:00:00Z',
   } as Tool)
+
+const paginated = (data: Tool[], total = data.length): Paginated<Tool> => ({
+  data,
+  total,
+})
 
 beforeEach(() => {
   vi.clearAllMocks()
@@ -38,7 +48,7 @@ describe('RecentToolsBlock', () => {
 
   it('renders ErrorState when isError=true and there is no data', () => {
     mockUseRecentTools.mockReturnValue(
-      mockQueryResult<Tool[]>({ isError: true, data: undefined })
+      mockQueryResult<Paginated<Tool>>({ isError: true, data: undefined })
     )
 
     render(<RecentToolsBlock />)
@@ -49,7 +59,7 @@ describe('RecentToolsBlock', () => {
 
   it('preserves stale data even when isError=true (critical UX contract)', () => {
     mockUseRecentTools.mockReturnValue(
-      mockQueryResult({ isError: true, data: [tool(1, 'Slack')] })
+      mockQueryResult({ isError: true, data: paginated([tool(1, 'Slack')]) })
     )
 
     render(<RecentToolsBlock />)
@@ -59,7 +69,7 @@ describe('RecentToolsBlock', () => {
   })
 
   it('renders EmptyState when data is an empty array', () => {
-    mockUseRecentTools.mockReturnValue(mockQueryResult({ data: [] }))
+    mockUseRecentTools.mockReturnValue(mockQueryResult({ data: paginated([]) }))
 
     render(<RecentToolsBlock />)
 
@@ -69,7 +79,7 @@ describe('RecentToolsBlock', () => {
 
   it('renders the card with tool names when data is populated', () => {
     mockUseRecentTools.mockReturnValue(
-      mockQueryResult({ data: [tool(1, 'Slack'), tool(2, 'Figma')] })
+      mockQueryResult({ data: paginated([tool(1, 'Slack'), tool(2, 'Figma')]) })
     )
 
     render(<RecentToolsBlock />)
@@ -81,7 +91,11 @@ describe('RecentToolsBlock', () => {
   it('calls refetch when the retry button is clicked', async () => {
     const refetch = vi.fn().mockResolvedValue({ data: undefined })
     mockUseRecentTools.mockReturnValue(
-      mockQueryResult<Tool[]>({ isError: true, data: undefined, refetch: refetch as never })
+      mockQueryResult<Paginated<Tool>>({
+        isError: true,
+        data: undefined,
+        refetch: refetch as never,
+      })
     )
 
     render(<RecentToolsBlock />)

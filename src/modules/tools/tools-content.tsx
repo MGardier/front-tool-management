@@ -1,5 +1,6 @@
 import { Wrench } from 'lucide-react'
 import clsx from 'clsx'
+import { Card } from '@/shared/components/card'
 import { ErrorState } from '@/shared/components/error/error-state'
 import { EmptyState } from '@/shared/components/empty-state'
 import { ToolsList } from '@/shared/components/tools-list/tools-list'
@@ -56,21 +57,22 @@ export function ToolsContent({
   }
 
   return (
-    <div
+    <Card
       className={clsx(
         'transition-opacity',
         isRefreshing && 'pointer-events-none opacity-60',
       )}
-      aria-busy={isRefreshing}
     >
-      <ToolsList tools={paginated.data} sort={sort} onSortChange={onSortChange} />
-      <Pagination
-        page={page}
-        limit={limit}
-        total={paginated.total}
-        onPageChange={onPageChange}
-        onLimitChange={onLimitChange}
-      />
-    </div>
+      <div aria-busy={isRefreshing}>
+        <ToolsList tools={paginated.data} sort={sort} onSortChange={onSortChange} />
+        <Pagination
+          page={page}
+          limit={limit}
+          total={paginated.total}
+          onPageChange={onPageChange}
+          onLimitChange={onLimitChange}
+        />
+      </div>
+    </Card>
   )
 }

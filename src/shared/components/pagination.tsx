@@ -13,22 +13,20 @@ type PaginationProps = {
 
 const DEFAULT_PAGE_SIZES = [10, 20, 50, 100]
 
+const MAX_PAGE_BUTTONS = 3
+
 /**
- * Picks up to 5 page numbers to show, ellipsing gaps.
- * Example (page 4, total 10): [1, ..., 3, 4, 5, ..., 10]
+ * Up to MAX_PAGE_BUTTONS contiguous page numbers, centered on `current` and
+ * clamped to [1, totalPages]. Navigation beyond the window relies on the
+ * prev / next arrows, so no ellipses are needed.
+ * Example (page 5, total 10, max 3): [4, 5, 6].
  */
-const buildPageList = (current: number, totalPages: number): (number | 'gap')[] => {
-  if (totalPages <= 7) {
-    return Array.from({ length: totalPages }, (_, i) => i + 1)
-  }
-  const pages: (number | 'gap')[] = [1]
-  const start = Math.max(2, current - 1)
-  const end = Math.min(totalPages - 1, current + 1)
-  if (start > 2) pages.push('gap')
-  for (let p = start; p <= end; p++) pages.push(p)
-  if (end < totalPages - 1) pages.push('gap')
-  pages.push(totalPages)
-  return pages
+const buildPageList = (current: number, totalPages: number): number[] => {
+  const size = Math.min(MAX_PAGE_BUTTONS, totalPages)
+  let start = Math.max(1, current - Math.floor(size / 2))
+  const end = Math.min(totalPages, start + size - 1)
+  start = Math.max(1, end - size + 1)
+  return Array.from({ length: end - start + 1 }, (_, i) => start + i)
 }
 
 export function Pagination({
@@ -63,22 +61,16 @@ export function Pagination({
           >
             <ChevronLeft className="h-4 w-4" strokeWidth={2} />
           </PagerButton>
-          {buildPageList(page, totalPages).map((p, i) =>
-            p === 'gap' ? (
-              <span key={`gap-${i}`} className="px-1 text-slate-400">
-                …
-              </span>
-            ) : (
-              <PagerButton
-                key={p}
-                active={p === page}
-                onClick={() => onPageChange(p)}
-                ariaLabel={`Go to page ${p}`}
-              >
-                {p}
-              </PagerButton>
-            )
-          )}
+          {buildPageList(page, totalPages).map((p) => (
+            <PagerButton
+              key={p}
+              active={p === page}
+              onClick={() => onPageChange(p)}
+              ariaLabel={`Go to page ${p}`}
+            >
+              {p}
+            </PagerButton>
+          ))}
           <PagerButton
             ariaLabel="Next page"
             disabled={isLast}

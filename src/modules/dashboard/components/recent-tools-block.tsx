@@ -1,19 +1,29 @@
+import { useEffect, useState } from 'react'
 import { Wrench } from 'lucide-react'
 import { EmptyState } from '@/shared/components/empty-state'
 import { ErrorState } from '@/shared/components/error/error-state'
-import { useRecentTools } from '../hooks/use-recent-tools'
+import { MODULES } from '@/app/constants/modules'
+import { RECENT_TOOLS_LIMIT, useRecentTools } from '../hooks/use-recent-tools'
 import { RecentToolsCard } from './recent-tools/recent-tools-card'
 import { RecentToolsCardSkeleton } from './recent-tools/recent-tools-card-skeleton'
-import { MODULES } from '@/app/constants/modules'
 
 export function RecentToolsBlock() {
-  const recentTools = useRecentTools(MODULES.dashboard)
+  const [page, setPage] = useState(1)
+  const recentTools = useRecentTools(MODULES.dashboard, page)
 
-  if (recentTools.isLoading) 
+  const paginated = recentTools.data
+  const total = paginated?.total ?? 0
+  const totalPages = Math.max(1, Math.ceil(total / RECENT_TOOLS_LIMIT))
+
+  // Guard against a page that no longer exists (data shrank).
+  useEffect(() => {
+    if (paginated && page > totalPages) setPage(totalPages)
+  }, [paginated, page, totalPages])
+
+  if (recentTools.isLoading)
     return <RecentToolsCardSkeleton />
-  
 
-  if (recentTools.isError && !recentTools.data) 
+  if (recentTools.isError && !paginated)
     return (
       <ErrorState
         title="Couldn't load recent tools"
@@ -22,11 +32,10 @@ export function RecentToolsBlock() {
         isRetrying={recentTools.isFetching}
       />
     )
-  
 
-  if (!recentTools.data) return null
+  if (!paginated) return null
 
-  if (recentTools.data.length === 0) 
+  if (paginated.data.length === 0)
     return (
       <EmptyState
         icon={Wrench}
@@ -34,7 +43,14 @@ export function RecentToolsBlock() {
         description="Tools added in the last 30 days will appear here."
       />
     )
-  
 
-  return <RecentToolsCard tools={recentTools.data} />
+  return (
+    <RecentToolsCard
+      tools={paginated.data}
+      page={page}
+      limit={RECENT_TOOLS_LIMIT}
+      total={paginated.total}
+      onPageChange={setPage}
+    />
+  )
 }

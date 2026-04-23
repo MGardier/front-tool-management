@@ -1,22 +1,26 @@
+import { keepPreviousData, useQuery, type UseQueryResult } from '@tanstack/react-query'
 import { toolsService } from '@/lib/api/tools/tools.service'
 import type { Tool } from '@/lib/api/tools/tools.schema'
 import type { ToolsQueryParams } from '@/lib/api/tools/types'
 import { toolsKeys } from '@/lib/api/tools/tools.key'
-import { useQuery, type UseQueryResult } from '@tanstack/react-query'
+import type { Paginated } from '@/shared/types/api.types'
 
+export const RECENT_TOOLS_LIMIT = 8
 
-
-
-// Mirrors the fixed query params used by `toolsService.fetchRecentTools()`
-// — keeping them here makes the cache key accurate and stable.
-const RECENT_TOOLS_PARAMS: ToolsQueryParams = {
+const BASE_PARAMS: ToolsQueryParams = {
   _sort: 'updated_at',
   _order: 'desc',
-  _limit: 8,
+  _limit: RECENT_TOOLS_LIMIT,
 }
 
-export const useRecentTools = (module: string): UseQueryResult<Tool[]> =>
-  useQuery({
-    queryKey: toolsKeys.recentlist(module, RECENT_TOOLS_PARAMS),
-    queryFn: () => toolsService.fetchRecentTools(),
+export const useRecentTools = (
+  module: string,
+  page: number = 1
+): UseQueryResult<Paginated<Tool>> => {
+  const params: ToolsQueryParams = { ...BASE_PARAMS, _page: page }
+  return useQuery({
+    queryKey: toolsKeys.recentlist(module, params),
+    queryFn: () => toolsService.fetchTools(params),
+    placeholderData: keepPreviousData,
   })
+}
