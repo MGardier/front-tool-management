@@ -1,12 +1,13 @@
 import { useState } from "react";
 import clsx from "clsx";
 
-import { ToolsToolbar } from "./components/tools-toolbar";
-import { ToolsFiltersPanel } from "./components/tools-filters-panel";
-import { ToolsActiveFilters } from "./components/tools-active-filters";
+
 
 import { ToolsContent } from "./tools-content";
 import type { TToolsPageData } from "./types";
+import { ToolsToolbar } from "./components/list/tools-toolbar";
+import { ToolsFiltersPanel } from "./components/list/tools-filters-panel";
+import { ToolsActiveFilters } from "./components/list/tools-active-filters";
 
 
 
