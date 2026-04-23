@@ -7,10 +7,11 @@ import { mapToDashboardKpis } from '../utils'
 
 
 
-export const useDashboardKpis = (): UseDashboardKpisResult => {
-  const analyticsQuery = useAnalytics()
-  const activeToolsCountQuery = useActiveToolsCount()
-  const departmentsCountQuery = useDepartmentsCount()
+
+export const useDashboardKpis = (module:string): UseDashboardKpisResult => {
+  const analyticsQuery = useAnalytics(module)
+  const activeToolsCountQuery = useActiveToolsCount(module)
+  const departmentsCountQuery = useDepartmentsCount(module)
 
   const queries = [analyticsQuery, activeToolsCountQuery, departmentsCountQuery]
   const isLoading = queries.some((q) => q.isLoading)

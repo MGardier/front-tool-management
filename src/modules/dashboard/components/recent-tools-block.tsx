@@ -4,9 +4,10 @@ import { ErrorState } from '@/shared/components/error/error-state'
 import { useRecentTools } from '../hooks/use-recent-tools'
 import { RecentToolsCard } from './recent-tools/recent-tools-card'
 import { RecentToolsCardSkeleton } from './recent-tools/recent-tools-card-skeleton'
+import { MODULES } from '@/app/constants/modules'
 
 export function RecentToolsBlock() {
-  const recentTools = useRecentTools()
+  const recentTools = useRecentTools(MODULES.dashboard)
 
   if (recentTools.isLoading) 
     return <RecentToolsCardSkeleton />

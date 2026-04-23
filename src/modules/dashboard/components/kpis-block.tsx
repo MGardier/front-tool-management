@@ -3,9 +3,10 @@ import { useDashboardKpis } from '../hooks/use-dashboard-kpis'
 import { buildStatCards } from '../utils'
 import { StatCardSkeletonGrid } from './stat-card/stat-card-skeleton'
 import { StatCard } from './stat-card/stat-card'
+import { MODULES } from '@/app/constants/modules'
 
 export function KpisBlock() {
-  const kpis = useDashboardKpis()
+  const kpis = useDashboardKpis(MODULES.dashboard)
 
   if (kpis.isLoading) {
     return <StatCardSkeletonGrid />

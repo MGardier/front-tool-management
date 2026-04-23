@@ -1,9 +1,12 @@
 import { departmentsService } from '@/lib/api/departments/departments.service'
+import { departmentsKeys } from '@/lib/api/departments/departments.key'
 import { useQuery, type UseQueryResult } from '@tanstack/react-query'
-import { dashboardKeys } from '../dashboard.key'
 
-export const useDepartmentsCount = (): UseQueryResult<number> =>
+
+
+
+export const useDepartmentsCount = (module: string): UseQueryResult<number> =>
   useQuery({
-    queryKey: dashboardKeys.departmentsCount(),
+    queryKey: departmentsKeys.count(module),
     queryFn: () => departmentsService.fetchDepartmentsCount(),
   })

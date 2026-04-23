@@ -1,10 +1,12 @@
 import { analyticsService } from '@/lib/api/analytics/analytics.service'
 import type { Analytics } from '@/lib/api/analytics/analytics.schema'
+import { analyticsKeys } from '@/lib/api/analytics/analytics.key'
 import { useQuery, type UseQueryResult } from '@tanstack/react-query'
-import { dashboardKeys } from '../dashboard.key'
 
-export const useAnalytics = (): UseQueryResult<Analytics> =>
+
+
+export const useAnalytics = (module: string): UseQueryResult<Analytics> =>
   useQuery({
-    queryKey: dashboardKeys.analytics(),
+    queryKey: analyticsKeys.summary(module),
     queryFn: () => analyticsService.fetchAnalytics(),
   })
