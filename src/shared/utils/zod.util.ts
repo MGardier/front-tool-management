@@ -36,3 +36,11 @@ export const requiredCategoricalString = z
   .transform((v) => v.trim())
   .refine((v) => v !== '', { message: 'Required categorical string cannot be empty' })
   .transform(capitalizeFirstLetter)
+
+
+  /** Required string — trims, rejects empty. */
+export const requiredString = (label: string) =>
+  z
+    .string()
+    .trim()
+    .min(1, `${label} is required`)
