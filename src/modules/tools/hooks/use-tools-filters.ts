@@ -1,13 +1,8 @@
 import { useCallback, useMemo } from 'react'
 import { useSearchParams } from 'react-router'
-import {
-  type ToolFilterKey,
-  type ToolFilters,
-  type ToolSort,
-} from '@/shared/components/tools-list/types'
-import type { ToolsFiltersState } from '../types'
-import { parseState, serializeState } from '../utils'
-
+import type { ToolSort } from '@/shared/components/tools-list/types'
+import type { ToolFilterKey, ToolFilters, ToolsFiltersState } from '../types'
+import { parseState, serializeState } from '../utils/url.util'
 
 const DEFAULT_PAGE = 1
 

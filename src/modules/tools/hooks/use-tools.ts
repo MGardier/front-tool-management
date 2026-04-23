@@ -1,9 +1,9 @@
 import { keepPreviousData, useQuery, type UseQueryResult } from '@tanstack/react-query'
 import type { Paginated } from '@/shared/types/api.types'
-import { toolsService } from './tools.service'
-import type { Tool } from './tools.schema'
-import type { ToolsQueryParams } from './types'
-import { toolsKeys } from './tools.key'
+import type { ToolsQueryParams } from '@/lib/api/tools/types'
+import type { Tool } from '@/lib/api/tools/tools.schema'
+import { toolsKeys } from '@/lib/api/tools/tools.key'
+import { toolsService } from '@/lib/api/tools/tools.service'
 
 /**
  * Generic paginated tools query. `module` scopes the cache key so that

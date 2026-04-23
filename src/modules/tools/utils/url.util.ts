@@ -1,15 +1,13 @@
-
-
-// ─────────────────────────────  PARSING  ───────────────────────────────────
-// URL search params → typed state. Pure, module-level — testable in isolation.
-
-import { SORT_DIRECTIONS, SORT_KEYS, STATUS_VALUES, type ToolFilters, type ToolSort } from "@/shared/components/tools-list/types"
-import { readEnumParam, readIntParam, readStringParam } from "@/shared/utils/url-params.util"
-import type { ToolsFiltersState } from "./types"
+import { SORT_DIRECTIONS, SORT_KEYS, type ToolSort } from '@/shared/components/tools-list/types'
+import { readEnumParam, readIntParam, readStringParam } from '@/shared/utils/url-params.util'
+import { STATUS_VALUES, type ToolFilters, type ToolsFiltersState } from '../types'
 
 const DEFAULT_SORT: ToolSort = { key: 'updated_at', direction: 'desc' }
 const DEFAULT_PAGE = 1
 const DEFAULT_LIMIT = 20
+
+// ─────────────────────────────  PARSING  ───────────────────────────────────
+// URL search params → typed state. Pure, module-level — testable in isolation.
 
 export const parseSort = (params: URLSearchParams): ToolSort => ({
   key: readEnumParam(params, '_sort', SORT_KEYS, DEFAULT_SORT.key),

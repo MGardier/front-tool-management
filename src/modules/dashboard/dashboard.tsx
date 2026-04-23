@@ -2,7 +2,7 @@ import { KpisBlock } from './components/kpis-block'
 import { RecentToolsBlock } from './components/recent-tools-block'
 
 
-export function Dashboard() {
+export function DashboardPage() {
   return (
     <>
       <div className="mb-6 md:mb-8">
