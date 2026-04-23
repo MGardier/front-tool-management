@@ -1,8 +1,7 @@
 import { X } from 'lucide-react'
 import { statusLabels } from '@/shared/components/tools-list/status'
 import type { ToolFilterKey, ToolFilters } from '../../types'
-import { filterLabels } from '../../utils/filters.util'
-
+import { getFilterLabel } from '../../utils/filters.util'
 
 type ToolsActiveFiltersProps = {
   filters: ToolFilters
@@ -36,11 +35,11 @@ export function ToolsActiveFilters({
           key={key}
           className="inline-flex items-center gap-1.5 rounded-full bg-slate-100 py-1 pl-3 pr-1 text-xs font-medium text-slate-700"
         >
-          <span className="text-slate-500">{filterLabels[key]}:</span>
+          <span className="text-slate-500">{getFilterLabel(key)}:</span>
           <span className="text-slate-900">{displayValue(key, value as string)}</span>
           <button
             type="button"
-            aria-label={`Remove ${filterLabels[key]} filter`}
+            aria-label={`Remove ${getFilterLabel(key)} filter`}
             onClick={() => onRemove(key)}
             className="ml-0.5 flex h-5 w-5 items-center justify-center rounded-full text-slate-500 hover:bg-slate-200 hover:text-slate-900"
           >
