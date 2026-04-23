@@ -11,7 +11,9 @@ export interface ToolsQueryParams extends ListQueryParams {
   vendor_like?: string
   category?: string
   owner_department?: string
-  _sort?: keyof Tool
+  
+  //almost created_at doesn't exist on API insteed temporary we will use updated_at
+  _sort?: keyof Omit<Tool,'created_at'> 
 
   /*⚠️ Comparison operators below are NOT supported by JSON Server v1.
    *   They are silently ignored and return the full resource unfiltered.
