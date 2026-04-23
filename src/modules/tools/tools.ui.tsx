@@ -13,7 +13,7 @@ interface ToolsUiProps {
   data: ToolsPageData;
 }
 
-export const ToolsUi = ({ data }: ToolsUiProps) => {
+export function ToolsUi  ({ data }: ToolsUiProps)  {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
 
   return (
