@@ -12,8 +12,12 @@ export interface ToolsQueryParams extends ListQueryParams {
   category?: string
   owner_department?: string
   
-  //almost created_at doesn't exist on API insteed temporary we will use updated_at
-  _sort?: keyof Omit<Tool,'created_at'> 
+  /**
+   * `created_at` is excluded from sortable fields: it's missing on many
+   * records in the API seed, which would produce inconsistent sort results.
+   * Temporarily we use `updated_at` as a reliable chronological sort field instead .
+   */
+  _sort?: keyof Omit<Tool, 'created_at'>
 
   /*⚠️ Comparison operators below are NOT supported by JSON Server v1.
    *   They are silently ignored and return the full resource unfiltered.
