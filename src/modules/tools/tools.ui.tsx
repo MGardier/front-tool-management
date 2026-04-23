@@ -1,20 +1,14 @@
-import { useState } from "react";
-import clsx from "clsx";
-import { ToolsContent } from "./tools-content";
-import { ToolsToolbar } from "./components/list/tools-toolbar";
-import { ToolsFiltersPanel } from "./components/list/tools-filters-panel";
-import { ToolsActiveFilters } from "./components/list/tools-active-filters";
-import type { useToolsPage } from "./hooks/use-tools-page";
+import { useState } from 'react'
+import clsx from 'clsx'
+import { ToolsContent } from './tools-content'
+import { ToolsToolbar } from './components/list/tools-toolbar'
+import { ToolsFiltersPanel } from './components/list/tools-filters-panel'
+import { ToolsActiveFilters } from './components/list/tools-active-filters'
+import type { ToolsPageData } from './types'
 
-
-type ToolsPageData = ReturnType<typeof useToolsPage>;
-
-interface ToolsUiProps {
-  data: ToolsPageData;
-}
-
-export function ToolsUi  ({ data }: ToolsUiProps)  {
-  const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
+export function ToolsUi({ data }: { data: ToolsPageData }) {
+  const { state, query, actions } = data
+  const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
 
   return (
     <div className="space-y-4">
@@ -26,43 +20,34 @@ export function ToolsUi  ({ data }: ToolsUiProps)  {
       </header>
 
       <ToolsToolbar
-        searchValue={data.filters.q ?? ""}
-        onSearchChange={(q) => data.setFilters({ ...data.filters, q: q || undefined })}
-        activeFilterCount={data.activeFilterCount}
+        searchValue={state.filters.q ?? ''}
+        onSearchChange={(q) => actions.setFilter('q', q || undefined)}
+        activeFilterCount={state.activeFilterCount}
         mobileFiltersOpen={mobileFiltersOpen}
         onToggleMobileFilters={() => setMobileFiltersOpen((o) => !o)}
       />
 
-      <div className={clsx(mobileFiltersOpen ? "block" : "hidden", "md:block")}>
+      <div className={clsx(mobileFiltersOpen ? 'block' : 'hidden', 'md:block')}>
         <ToolsFiltersPanel
-          filters={data.filters}
-          onChange={data.setFilters}
-          enabled={data.enabledFilters}
+          filters={state.filters}
+          onChange={actions.setFilter}
+          enabled={state.enabledFilters}
         />
       </div>
 
       <ToolsActiveFilters
-        filters={data.filters}
-        onRemove={data.removeFilter}
-        onClearAll={data.clearFilters}
+        filters={state.filters}
+        onRemove={actions.removeFilter}
+        onClearAll={actions.clearFilters}
       />
 
       <ToolsContent
-        isLoading={data.isLoading}
-        isError={data.isError}
-        isRefreshing={data.isRefreshing}
-        hasData={data.hasData}
-        activeFilterCount={data.activeFilterCount}
-        paginated={data.paginated}
-        sort={data.sort}
-        page={data.page}
-        limit={data.limit}
-        onSortChange={data.setSort}
-        onPageChange={data.setPage}
-        onLimitChange={data.setLimit}
-        onRetry={data.refetch}
-        isFetching={data.isFetching}
+        state={state}
+        query={query}
+        onSortChange={actions.setSort}
+        onPageChange={actions.setPage}
+        onLimitChange={actions.setLimit}
       />
     </div>
-  );
-};
+  )
+}
