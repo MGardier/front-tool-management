@@ -7,13 +7,13 @@ import { ToolsActiveFilters } from "./components/list/tools-active-filters";
 import type { useToolsPage } from "./hooks/use-tools-page";
 
 
-type TToolsPageData = ReturnType<typeof useToolsPage>;
+type ToolsPageData = ReturnType<typeof useToolsPage>;
 
-interface IToolsUiProps {
-  data: TToolsPageData;
+interface ToolsUiProps {
+  data: ToolsPageData;
 }
 
-export const ToolsUi = ({ data }: IToolsUiProps) => {
+export const ToolsUi = ({ data }: ToolsUiProps) => {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
 
   return (

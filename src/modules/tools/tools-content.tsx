@@ -10,7 +10,7 @@ import type { ToolSort } from "@/shared/components/tools-list/types";
 import type { Paginated } from "@/shared/types/api.types";
 import type { Tool } from "@/lib/api/tools/tools.schema";
 
-interface IToolsContentProps {
+interface ToolsContentProps {
   isLoading: boolean;
   isError: boolean;
   isRefreshing: boolean;
@@ -42,7 +42,7 @@ export const ToolsContent = ({
   onLimitChange,
   onRetry,
   isFetching,
-}: IToolsContentProps) => {
+}: ToolsContentProps) => {
   if (isLoading) {
     return <ToolsListSkeleton rows={limit > 10 ? 10 : limit} />;
   }
