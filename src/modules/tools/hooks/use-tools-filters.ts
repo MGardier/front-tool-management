@@ -40,7 +40,7 @@ export function useToolsFilters() {
   )
 
   const setSort = useCallback(
-    (sort: ToolSort) => commit({ ...state, sort }),
+    (sort: ToolSort) => commit({ ...state, sort, page: DEFAULT_PAGE}),
     [commit, state]
   )
 
