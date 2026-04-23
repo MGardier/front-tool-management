@@ -1,12 +1,10 @@
 import { useCallback, useMemo } from 'react'
 import { useSearchParams } from 'react-router'
 import type { ToolSort } from '@/shared/components/tools-list/types'
-import type { ToolFilterKey, ToolFilters, ToolsFiltersState } from '../types'
-import { parseState, serializeState } from '../utils/url.util'
+import type { ToolFilterKey, ToolFilters, ToolsFiltersHook, ToolsFiltersState } from '../types'
+import { DEFAULT_PAGE, parseState, serializeState } from '../utils/url.util'
 
-const DEFAULT_PAGE = 1
-
-export function useToolsFilters() {
+export function useToolsFilters(): ToolsFiltersHook {
   const [searchParams, setSearchParams] = useSearchParams()
 
   const state = useMemo(() => parseState(searchParams), [searchParams])
@@ -17,10 +15,18 @@ export function useToolsFilters() {
     [setSearchParams]
   )
 
-  // ─────────  Handlers  ─────────
-
   const setFilters = useCallback(
     (filters: ToolFilters) => commit({ ...state, filters, page: DEFAULT_PAGE }),
+    [commit, state]
+  )
+
+  const setFilter = useCallback(
+    <K extends ToolFilterKey>(key: K, value: ToolFilters[K]) =>
+      commit({
+        ...state,
+        filters: { ...state.filters, [key]: value },
+        page: DEFAULT_PAGE,
+      }),
     [commit, state]
   )
 
@@ -40,7 +46,7 @@ export function useToolsFilters() {
   )
 
   const setSort = useCallback(
-    (sort: ToolSort) => commit({ ...state, sort, page: DEFAULT_PAGE}),
+    (sort: ToolSort) => commit({ ...state, sort, page: DEFAULT_PAGE }),
     [commit, state]
   )
 
@@ -57,6 +63,7 @@ export function useToolsFilters() {
   return {
     ...state,
     setFilters,
+    setFilter,
     removeFilter,
     clearFilters,
     setSort,

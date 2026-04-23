@@ -1,6 +1,6 @@
-import type { ToolStatus } from '@/lib/api/tools/tools.schema'
+import type { Tool, ToolStatus } from '@/lib/api/tools/tools.schema'
 import type { ToolSort } from '@/shared/components/tools-list/types'
-
+import type { Paginated } from '@/shared/types/api.types'
 
 /**
  * User-facing filter state. Mirrors a subset of `ToolsQueryParams` that is
@@ -17,9 +17,6 @@ export type ToolFilters = {
 
 export type ToolFilterKey = keyof ToolFilters
 
-/** Runtime list mirroring `ToolStatus` (kept aligned via `satisfies`). */
-export const STATUS_VALUES = ['active', 'expiring', 'unused'] as const satisfies readonly ToolStatus[]
-
 export type ToolsFiltersState = {
   filters: ToolFilters
   sort: ToolSort
@@ -27,4 +24,36 @@ export type ToolsFiltersState = {
   limit: number
 }
 
+// ────────────  Hook return contracts  ────────────
 
+export type ToolsFiltersHook = ToolsFiltersState & {
+  setFilters: (filters: ToolFilters) => void
+  setFilter: <K extends ToolFilterKey>(key: K, value: ToolFilters[K]) => void
+  removeFilter: (key: ToolFilterKey) => void
+  clearFilters: () => void
+  setSort: (sort: ToolSort) => void
+  setPage: (page: number) => void
+  setLimit: (limit: number) => void
+}
+
+export type ToolsPageState = ToolsFiltersState & {
+  enabledFilters: ToolFilterKey[]
+  activeFilterCount: number
+}
+
+export type ToolsPageQuery = {
+  paginated: Paginated<Tool> | undefined
+  isLoading: boolean
+  isError: boolean
+  isRefreshing: boolean
+  hasData: boolean
+  refetch: () => void
+}
+
+export type ToolsPageActions = Omit<ToolsFiltersHook, keyof ToolsFiltersState>
+
+export type ToolsPageData = {
+  state: ToolsPageState
+  query: ToolsPageQuery
+  actions: ToolsPageActions
+}
