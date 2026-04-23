@@ -61,7 +61,7 @@ export const ToolsUi = ({ data }: IToolsUiProps) => {
         onPageChange={data.setPage}
         onLimitChange={data.setLimit}
         onRetry={data.refetch}
-        isFetching={data.isRefreshing}
+        isFetching={data.isFetching}
       />
     </div>
   );

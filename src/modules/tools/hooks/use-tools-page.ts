@@ -45,6 +45,7 @@ export const useToolsPage = () => {
     enabledFilters: ENABLED_FILTERS,
 
     // Query state
+    isFetching : query.isFetching,
     isLoading: query.isLoading,
     isError: query.isError && !paginated,
     isRefreshing: query.isFetching && !query.isLoading,
