@@ -12,6 +12,6 @@ export const departmentsApi = {
   },
 
   async fetchDepartmentById(id: number): Promise<AxiosResponse<Department>> {
-    return httpClient.get<Department>(`${ENDPOINTS.departments}/${id}`)
+    return httpClient.get<Department>(ENDPOINTS.departmentsDetail(id))
   },
 }

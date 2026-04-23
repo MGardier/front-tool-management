@@ -12,6 +12,6 @@ export const toolsApi = {
   },
 
   async fetchToolById(id: number): Promise<AxiosResponse<Tool>> {
-    return httpClient.get<Tool>(`${ENDPOINTS.tools}/${id}`)
+    return httpClient.get<Tool>(ENDPOINTS.toolsDetail(id))
   },
 }
